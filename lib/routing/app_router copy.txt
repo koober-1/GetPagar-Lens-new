@@ -1,0 +1,104 @@
+import 'package:getpagar_lens/features/auth/login/login_screen.dart';
+import 'package:getpagar_lens/models/employee_model.dart';
+import 'package:getpagar_lens/routing/app_routes.dart';
+import 'package:getpagar_lens/screens/attendance/attendance_camera_screen.dart';
+import 'package:getpagar_lens/screens/employee/employee_profile_screen.dart';
+import 'package:getpagar_lens/screens/face_registration/registration_camera_screen.dart';
+import 'package:getpagar_lens/screens/face_registration/registration_instruction_screen.dart';
+import 'package:getpagar_lens/screens/face_registration/registration_success_screen.dart';
+import 'package:getpagar_lens/screens/home/home_shell_screen.dart';
+import 'package:getpagar_lens/screens/home/tabs/employee_tab_screen.dart';
+import 'package:getpagar_lens/screens/home/tabs/logs_tab_screen.dart';
+import 'package:getpagar_lens/screens/home/tabs/face_preview_screen.dart';
+import 'package:getpagar_lens/screens/setting/setting_screen.dart';
+import 'package:getpagar_lens/screens/welcome/welcome_screen.dart';
+import 'package:go_router/go_router.dart';
+
+final appRouter = GoRouter(
+  routes: [
+    GoRoute(
+      path: AppRoutes.login,
+      builder: (context, state) => const LoginScreen(),
+    ),
+
+    GoRoute(
+      path: AppRoutes.welcome,
+      builder: (context, state) {
+        final mobile = state.extra as String;
+
+        return WelcomeScreen(mobile: mobile);
+      },
+    ),
+
+    GoRoute(
+      path: AppRoutes.setting,
+      builder: (context, state) => const SettingScreen(),
+    ),
+
+    GoRoute(
+      path: AppRoutes.facePreview,
+      builder: (context, state) {
+        final imagePath = state.extra as String;
+        return FacePreviewScreen(imagePath: imagePath);
+      },
+    ),
+
+    GoRoute(
+      path: AppRoutes.registrationInstructions,
+      builder: (context, state) {
+        final employee = state.extra as EmployeeModel;
+        return RegistrationInstructionScreen(employee: employee);
+      },
+    ),
+
+    GoRoute(
+      path: AppRoutes.registrationCamera,
+      builder: (context, state) {
+        final employee = state.extra as EmployeeModel;
+        return RegistrationCameraScreen(employee: employee);
+      },
+    ),
+
+    GoRoute(
+      path: AppRoutes.registrationSuccess,
+      builder: (context, state) {
+        final employee = state.extra as EmployeeModel;
+        return RegistrationSuccessScreen(employee: employee);
+      },
+    ),
+
+    GoRoute(
+      path: AppRoutes.employeeProfile,
+      builder: (context, state) {
+        final employee = state.extra as EmployeeModel;
+        return EmployeeProfileScreen(employee: employee);
+      },
+    ),
+
+    GoRoute(
+      path: AppRoutes.attendanceCamera,
+      builder: (context, state) => const AttendanceCameraScreen(),
+    ),
+
+    // GoRoute(
+    //   path: AppRoutes.attendanceCamera,
+    //   builder: (context, state) {
+    //     final employee = state.extra as EmployeeModel;
+    //     return AttendanceCameraScreen(employee: employee);
+    //   },
+    // ),
+    ShellRoute(
+      builder: (context, state, child) => HomeShellScreen(child: child),
+      routes: [
+        GoRoute(
+          path: AppRoutes.employee,
+          builder: (context, state) => const EmployeeTabScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.logs,
+          builder: (context, state) => const LogsTabScreen(),
+        ),
+      ],
+    ),
+  ],
+);
